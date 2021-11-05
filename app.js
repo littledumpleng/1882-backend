@@ -13,8 +13,10 @@ db.authenticate()
     .then(() => console.log('Database connected...'))
     .catch(err => console.log('Error: ' + err))
 
+app.get('/', (req, res) => res.send('INDEX')); // loads homepage // create index route that catches get request
 
-app.get('/', (req, res) => res.send('INDEX')); // create index route that catches get request
+// Gig routes
+app.use('/gigs', require('./routes/gigs')); // require the gigs route for anything that's '/gigs'
 
 const PORT = process.env.Port || 5000;
 
