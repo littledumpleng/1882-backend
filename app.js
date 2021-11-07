@@ -19,6 +19,9 @@ app.get('/', (req, res) => res.send('INDEX')); // loads homepage // create index
 app.engine('handlebars', exphbs({ defaultLayout: 'main'})); // {options object}. this layout wraps all of your views and their styling. this will be called main.handlebars
 app.set('view engine', 'handlebars'); // set view engine to handlebars
 
+// set public as express static folder 
+app.use(express.static(path.join(__dirname, 'public'))); // using the path module to call public folder within current directory
+
 // Gig routes
 app.use('/gigs', require('./routes/gigs')); // require the gigs route for anything that's '/gigs'
 
