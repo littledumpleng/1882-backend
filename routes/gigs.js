@@ -5,10 +5,11 @@ const Gig = require('../models/Gig'); // model
 
 // get gig list
 router.get('/', (req, res) => // since we already pointed '/gigs' to this file, we just need to use '/'
-    Gig.findAll() // findAll() is a sequelize method
+    Gig.findAll() // findAll() is a sequelize method to find gigs
         .then(gigs => {
-            console.log(gigs);
-            res.sendStatus(200); // 200 ok
+            res.render('gigs', { // render a view called gigs and pass in gigs object
+                gigs // same as gigs:gigs
+            });
     })
     .catch(err => console.log(err)));
 
