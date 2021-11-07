@@ -15,6 +15,10 @@ db.authenticate()
 
 app.get('/', (req, res) => res.send('INDEX')); // loads homepage // create index route that catches get request
 
+// middleware - handlebars
+app.engine('handlebars', exphbs({ defaultLayout: 'main'})); // {options object}. this layout wraps all of your views and their styling. this will be called main.handlebars
+app.set('view engine', 'handlebars'); // set view engine to handlebars
+
 // Gig routes
 app.use('/gigs', require('./routes/gigs')); // require the gigs route for anything that's '/gigs'
 
