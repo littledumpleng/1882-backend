@@ -14,13 +14,13 @@ router.get('/', (req, res) => // since we already pointed '/gigs' to this file, 
     .catch(err => console.log(err)));
 
 // add a gig - ultimately later where we submit the form to as a post request. going to the /gigs/add url inserts this record into the db
-router.get('/add', (req, res) => {
+router.post('/add', (req, res) => {
     const data = {
-        title: 'Simple w=Wordpress website',
-        technologies: 'wordpress, php, html, css',
-        budget: '$1000',
-        description: 'lorem ipsum',
-        contact_email: 'fruits@gmail.com'
+        title: req.body.title,
+        technologies: req.body.technologies,
+        budget: req.body.budget,
+        description: req.body.description,
+        contact_email: req.body.contact_email
     }
 
     let { title, technologies, budget, description, contact_email} = data; // pulling these out of the data object
