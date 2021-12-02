@@ -25,22 +25,14 @@ router.post('/add', (req, res) => {
 
     // insert into table
     Gig.create({
-        title: title, // database column name: variable name
-        technologies, // you could format title like this too because they have the same name
+        title,
+        technologies,
         description,
         budget,
         contact_email
     })
-        .then(gig => res.redirect('/gigs')) // redirect to gigs afterwards
+        .then(gig => res.json(gig))
         .catch(err => console.log(err));
 });
 
 module.exports = router;
-
-
-
-
-// res.send('GIGS')); // since we already pointed '/gigs' to this file, we just need to use '/'
-
-
-// we want this router to ultimately fetch all of the gigs in the db
