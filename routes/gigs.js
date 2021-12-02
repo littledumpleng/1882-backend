@@ -7,11 +7,9 @@ const Gig = require('../models/Gig'); // model
 router.get('/', (req, res) => // since we already pointed '/gigs' to this file, we just need to use '/'
     Gig.findAll() // findAll() is a sequelize method to find gigs
         .then(gigs => {
-            res.render('gigs', { // render a view called gigs and pass in gigs object
-                gigs // same as gigs:gigs
-            });
-    })
-    .catch(err => console.log(err)));
+            res.json(gigs) // sends gigs as json
+        })
+        .catch(err => console.log(err)));
 
 // add a gig - ultimately later where we submit the form to as a post request. going to the /gigs/add url inserts this record into the db
 router.post('/add', (req, res) => {
