@@ -4,7 +4,7 @@
   "description": "1882 lit + art corner database app",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "dev": "nodemon app.js"
   },
   "author": "Lauren Eng",
@@ -18,6 +18,7 @@
     "sequelize": "^6.7.0"
   },
   "devDependencies": {
+    "handlebars": "^4.5.0",
     "nodemon": "^2.0.14"
   }
 }

@@ -4,6 +4,7 @@ const { Sequelize } = require('sequelize');
 // module.exports = new Sequelize('postgres://lauren_eng:xTg9BV@localhost:5432/database_1882') 
 
 // FORMAT 2 - passing parameters separately with postgres dialect
+
 module.exports = new Sequelize('database_1882', 'postgres', 'xTg9BV', {
     host: 'localhost',
     dialect: 'postgres',
