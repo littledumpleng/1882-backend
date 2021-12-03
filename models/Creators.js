@@ -1,7 +1,7 @@
-export default (database, DataTypes) => {
-  const Creators = database.define(
-    'creators',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const Creators = db.define('creators', {
       creator_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -22,13 +22,14 @@ export default (database, DataTypes) => {
       creator_country: {
         type: DataTypes.STRING
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
   // Creators.associate = (models) => {
   //   Creators.belongsToMany(models.Roles, {
   //     foreignKey: 'role_id' // role_id is a fk in creators
   //   });
   // };
-  return Creators;
-};
+
+})
+module.exports = Creators;

@@ -1,7 +1,7 @@
-export default (sequelize, DataTypes) => {
-  const Genres = sequelize.define(
-    'genres',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const Genres = db.define('genres', {
       genre_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -18,5 +18,6 @@ export default (sequelize, DataTypes) => {
   //     foreignKey: 'media_id'
   //   });
   // };
-  return Genres;
-};
+})
+
+module.exports = Genres;
