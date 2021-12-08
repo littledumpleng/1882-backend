@@ -1,7 +1,7 @@
-export default (database, DataTypes) => {
-  const CreatorRolesLinks = database.define(
-    'creators_roles_link',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const CreatorsRoles = db.define('creatorsroles', {
       media_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -13,8 +13,10 @@ export default (database, DataTypes) => {
       role_id: {
         type: DataTypes.INTEGER
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-  return CreatorRolesLinks;
-};
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
+  // return CreatorRolesLinks;
+}) 
+
+module.exports = CreatorsRoles;

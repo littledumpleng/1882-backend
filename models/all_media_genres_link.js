@@ -1,7 +1,7 @@
-export default (Sequelize, DataTypes) => {
-  const MediaGenreLinks = Sequelize.define(
-    'all_media_genres_link',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const MediaGenres = db.define('mediagenres', {
       media_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -10,8 +10,10 @@ export default (Sequelize, DataTypes) => {
       genre_id: {
         type: DataTypes.INTEGER
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-  return MediaGenreLinks;
-};
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
+  // return MediaGenreLinks;
+}) 
+
+module.exports = MediaGenres;

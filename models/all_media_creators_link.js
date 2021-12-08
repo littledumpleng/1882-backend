@@ -1,7 +1,7 @@
-export default (Sequelize, DataTypes) => {
-  const MediaCreatorLinks = Sequelize.define(
-    'all_media_creators_link',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const MediaCreators = db.define('mediacreators', {
       media_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -10,8 +10,10 @@ export default (Sequelize, DataTypes) => {
       creator_id: {
         type: DataTypes.INTEGER
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-  return MediaCreatorLinks;
-};
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
+  // return MediaCreatorLinks;
+}) 
+
+module.exports = MediaCreators;

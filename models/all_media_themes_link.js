@@ -1,7 +1,7 @@
-export default (Sequelize, DataTypes) => {
-  const MediaThemeLinks = Sequelize.define(
-    'all_media_themes_link',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const MediaThemes = db.define('mediathemes', {
       media_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -10,8 +10,10 @@ export default (Sequelize, DataTypes) => {
       theme_id: {
         type: DataTypes.INTEGER
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-  return MediaThemeLinks;
-};
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
+  // return MediaThemeLinks;
+}) 
+
+module.exports = MediaThemes;

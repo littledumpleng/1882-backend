@@ -1,7 +1,7 @@
-export default (Sequelize, DataTypes) => {
-  const MediaBackgroundLinks = Sequelize.define(
-    'all_media_backgrounds_link',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const MediaBackgrounds = db.define('mediabackgrounds', {
       media_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -10,8 +10,10 @@ export default (Sequelize, DataTypes) => {
       background_id: {
         type: DataTypes.INTEGER
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-  return MediaBackgroundLinks;
-};
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
+  // return MediaBackgroundLinks;
+}) 
+
+module.exports = MediaBackgrounds;

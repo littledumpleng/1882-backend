@@ -1,8 +1,8 @@
 // const Media stores everything in all_media table
-export default (sequelize, DataTypes) => {
-  const Media = sequelize.define(
-    'all_media',
-    {
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const AllMedia = db.define('allmedia', {
       media_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -35,9 +35,9 @@ export default (sequelize, DataTypes) => {
       show_still_airing: {
         type: DataTypes.STRING
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
   // Media.associate does a table join and lets you access data without needing a loop
   // when you get Media, you can get all of the Backgrounds related to it
   // Media.associate = (models) => {
@@ -60,5 +60,7 @@ export default (sequelize, DataTypes) => {
   //     foreignKey: 'genre_id'
   //   });
   // };
-  return Media;
-};
+  // return Media;
+}) 
+
+module.exports = AllMedia;

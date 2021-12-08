@@ -10,9 +10,9 @@ const Genres = db.define('genres', {
       genre: {
         type: DataTypes.STRING
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
+  //   },
+  //   { freezeTableName: true, timestamps: false }
+  // );
   // Genres.associate = (models) => {
   //   Genres.belongsToMany(models.Media, {
   //     foreignKey: 'media_id'
