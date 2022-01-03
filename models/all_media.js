@@ -1,43 +1,44 @@
 // const Media stores everything in all_media table
-export default (sequelize, DataTypes) => {
-  const Media = sequelize.define(
-    'all_media',
-    {
+
+const Sequelize = require('sequelize');
+const db = require('../config/database'); // outside the models folder inside the config folder into database
+
+const AllMedia = db.define('all_media', {
       media_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true
       },
       media_title: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       media_type: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       media_release_year: {
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER
       },
       media_description: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       media_duration: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       albums_songs_number: {
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER
       },
       television_seasons_number: {
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER
       },
       audience_rating: {
-        type: DataTypes.DECIMAL
+        type: Sequelize.DECIMAL
       },
       show_still_airing: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       }
-    },
-    { freezeTableName: true, timestamps: false }
-  );
+  //   },
+  //   // { freezeTableName: true, timestamps: false }
+  // );
   // Media.associate does a table join and lets you access data without needing a loop
   // when you get Media, you can get all of the Backgrounds related to it
   // Media.associate = (models) => {
@@ -60,5 +61,7 @@ export default (sequelize, DataTypes) => {
   //     foreignKey: 'genre_id'
   //   });
   // };
-  return Media;
-};
+
+}) 
+
+module.exports = AllMedia;
