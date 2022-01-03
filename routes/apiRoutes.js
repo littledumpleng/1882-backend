@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
 
 // export into controllers later?
-import express from 'express';
-import sequelize from 'sequelize';
-import db from '../database/initializeDB.js';
+const express = require('express');
+const sequelize = require('sequelize');
+const db = require('../database/initializeDB.js');
 
-import film from './controllers/filmController.js';
-import album from './controllers/albumController.js';
-import article from './controllers/articleController.js';
-import book from './controllers/bookController.js';
-import doc from './controllers/docController.js';
-import poetry from './controllers/poetryController.js';
-import tv from './controllers/tvController.js';
+// const film = require('./controllers/filmController.js');
+// const album = require('./controllers/albumController.js');
+// const article = require('./controllers/articleController.js');
+// const book = require('./controllers/bookController.js');
+// const doc = require('./controllers/docController.js');
+// const poetry = require('./controllers/poetryController.js');
+// const tv = require('./controllers/tvController.js');
 
 const router = express.Router();
 
@@ -535,4 +535,4 @@ router.route('/creatorRoleLinks').get(async (req, res) => {
   }
 });
 
-export default router;
+router = module.exports;
