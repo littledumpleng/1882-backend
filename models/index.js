@@ -1,25 +1,37 @@
-import Media from './all_media.js';
-import Creators from './Creators.js';
-import Backgrounds from './Backgrounds.js';
-import Genres from './Genres.js';
-import Roles from './Roles.js';
-import Themes from './Themes.js';
-import MediaBackgroundLinks from './all_media_backgrounds_link.js';
-import MediaCreatorLinks from './all_media_creators_link.js';
-import MediaGenreLinks from './all_media_genres_link.js';
-import MediaThemeLinks from './all_media_themes_link.js';
-import CreatorRoleLinks from './creators_roles_link.js';
+'use strict';
 
-export default {
-  Media,
-  Creators,
-  Backgrounds,
-  Genres,
-  Roles,
-  Themes,
-  MediaBackgroundLinks,
-  MediaCreatorLinks,
-  MediaGenreLinks,
-  MediaThemeLinks,
-  CreatorRoleLinks
-};
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
+const db = {};
+
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+  })
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;
