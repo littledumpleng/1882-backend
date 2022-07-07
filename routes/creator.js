@@ -3,8 +3,21 @@ const { Creator } = require('../models');
 
 router.get('/', async (req, res) => {
   try {
-    const creators = await Creator.findAll({
-      ...req.query,
+    const creators = await Creator.findAll();
+    res.json(creators);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const creators = await Creator.findOne({
+      where: {
+        id: req.params.id
+      }
     });
     res.json(creators);
   }
