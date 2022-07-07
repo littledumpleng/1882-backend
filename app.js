@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 9000;
 
 // syncs the models to the postgres database
 const db = require('./models');
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync().then(() => {
   app.listen(PORT, () => console.log(`Now listening at http://localhost:${PORT}`));
 });
 
