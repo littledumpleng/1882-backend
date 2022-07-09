@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
     author: {
       type: DataTypes.STRING,
     },
+    media_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Media',
+        key: 'id'
+      }
+    },
   });
 
   return Review;

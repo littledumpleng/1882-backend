@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 9000;
 const db = require('./models');
 db.sequelize.sync({
   // ONLY USE `force: true` when you want to completely overwrite your databases
-  // force: true
+  force: true
 }).then(() => {
   app.listen(PORT, () => console.log(`Now listening at http://localhost:${PORT}`));
 });

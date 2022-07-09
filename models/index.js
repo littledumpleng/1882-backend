@@ -26,6 +26,7 @@ fs
   });
 
 Object.keys(db).forEach(modelName => {
+  console.log("modelName", modelName);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
@@ -33,5 +34,46 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+// associations between tables
+db.Media.hasMany(db.Review, {
+  sourceKey: 'id',
+  foreignKey: 'media_id'
+});
+
+db.Review.belongsTo(db.Media, {
+  targetKey: 'id',
+  foreignKey: 'media_id'
+});
+
+// Post.belongsTo(User, {
+//   targetKey: 'id',
+//   foreignKey: 'user_id'
+// });
+
+// User.hasMany(Post, {
+//   sourceKey: 'id',
+//   foreignKey: 'user_id'
+// });
+
+// Comment.belongsTo(Post, {
+//   targetKey: 'id',
+//   foreignKey: 'post_id'
+// });
+
+// Post.hasMany(Comment, {
+//   sourceKey: 'id',
+//   foreignKey: 'post_id'
+// });
+
+// Comment.belongsTo(User, {
+//   targetKey: 'id',
+//   foreignKey: 'user_id'
+// });
+
+// User.hasMany(Comment, {
+//   sourceKey: 'id',
+//   foreignKey: 'user_id'
+// });
 
 module.exports = db;
