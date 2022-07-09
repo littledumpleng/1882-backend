@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const AllMedia = sequelize.define("AllMedia", {
+  const Media = sequelize.define("Media", {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -21,5 +21,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  return AllMedia;
+  return Media;
 };
