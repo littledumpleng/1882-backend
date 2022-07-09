@@ -13,11 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
     },
-    releaseYear: {
+    releaseDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
     },
   });
 
