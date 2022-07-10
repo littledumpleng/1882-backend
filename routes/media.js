@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Media, MediaMediaType } = require('../models');
+const { Media, MediaMediaType, sequelize } = require('../models');
 
 router.get('/', async (req, res) => {
   try {
@@ -19,7 +19,18 @@ router.get('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-    res.json(medias);
+
+    const mediaTypes = await sequelize.query(`
+    SELECT mt.id, mt.name
+      FROM "MediaMediaTypes" mmt
+      INNER JOIN "MediaTypes" mt ON mmt."mediaTypeId" = mt.id
+      WHERE mmt."mediaId" = ${req.params.id}
+    `);
+
+    res.json({
+      ...medias.dataValues,
+      mediaTypes: mediaTypes[0]
+    });
   }
   catch (err) {
     console.log(err);
@@ -53,10 +64,13 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+  const { title, description, releaseDate, mediaTypeIds } = req.body
   try {
     await Media.update(
       {
-        ...req.body,
+        title,
+        description,
+        releaseDate
       },
       {
         where: {
@@ -64,6 +78,20 @@ router.put('/:id', async (req, res) => {
         }
       }
     );
+
+    if (mediaTypeIds) {
+      await MediaMediaType.destroy({
+        where: {
+          mediaId: req.params.id
+        }
+      });
+      for (const mediaTypeId of mediaTypeIds) {
+        await MediaMediaType.create({
+          mediaId: req.params.id,
+          mediaTypeId
+        });
+      }
+    }
     res.json('updated');
   }
   catch (err) {
