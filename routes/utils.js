@@ -1,4 +1,4 @@
-const { MediaMediaType, MediaGenre, MediaTheme, MediaBackground } = require('../models');
+const { sequelize, MediaMediaType, MediaGenre, MediaTheme, MediaBackground } = require('../models');
 
 const utils = {};
 
@@ -72,6 +72,46 @@ utils.updateBackgroundsForMedia = async ({ mediaId, backgroundIds }) => {
     }
   });
   await utils.addBackgroundsForMedia({ mediaId, backgroundIds });
+}
+
+utils.getMediaTypesForMedia = async ({ mediaIds }) => {
+  const mediaTypes = await sequelize.query(`
+    SELECT mt.id, mt.name, mmt."mediaId"
+    FROM "MediaMediaTypes" mmt
+    INNER JOIN "MediaTypes" mt ON mmt."mediaTypeId" = mt.id
+    WHERE mmt."mediaId" in (${mediaIds.join(', ')})
+  `);
+  return mediaTypes[0];
+}
+
+utils.getGenresForMedia = async ({ mediaIds }) => {
+  const genres = await sequelize.query(`
+    SELECT g.id, g.name, mg."mediaId"
+    FROM "MediaGenres" mg
+    INNER JOIN "Genres" g ON mg."genreId" = g.id
+    WHERE mg."mediaId" in (${mediaIds.join(', ')})
+  `);
+  return genres[0];
+}
+
+utils.getThemesForMedia = async ({ mediaIds }) => {
+  const themes = await sequelize.query(`
+    SELECT t.id, t.name, mt."mediaId"
+    FROM "MediaThemes" mt
+    INNER JOIN "Themes" t ON mt."themeId" = t.id
+    WHERE mt."mediaId" in (${mediaIds.join(', ')})
+  `);
+  return themes[0];
+}
+
+utils.getBackgroundsForMedia = async ({ mediaIds }) => {
+  const backgrounds = await sequelize.query(`
+  SELECT b.id, b.name, mb."mediaId"
+  FROM "MediaBackgrounds" mb
+  INNER JOIN "Backgrounds" b ON mb."backgroundId" = b.id
+  WHERE mb."mediaId" in (${mediaIds.join(', ')})
+  `);
+  return backgrounds[0];
 }
 
 module.exports = utils;
