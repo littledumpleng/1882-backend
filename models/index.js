@@ -60,6 +60,27 @@ db.MediaMediaType.belongsTo(db.MediaType, {
   foreignKey: 'mediaTypeId'
 });
 
+// Media - Genre
+db.Media.hasOne(db.MediaGenre, {
+  sourceKey: 'id',
+  foreignKey: 'mediaId'
+});
+
+db.MediaGenre.belongsTo(db.Media, {
+  targetKey: 'id',
+  foreignKey: 'mediaId'
+});
+
+db.Genre.hasMany(db.MediaGenre, {
+  sourceKey: 'id',
+  foreignKey: 'genreId'
+});
+
+db.MediaGenre.belongsTo(db.Genre, {
+  targetKey: 'id',
+  foreignKey: 'genreId'
+});
+
 // Media - Review
 db.Media.hasMany(db.Review, {
   sourceKey: 'id',
