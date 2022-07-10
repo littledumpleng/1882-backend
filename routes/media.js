@@ -32,6 +32,10 @@ router.get('/', async (req, res) => {
       where += ` AND mt."themeId" IN (${themeIds.join(', ')})`;
     }
 
+    if (searchTerm) {
+      where += ` AND m.title LIKE '%${searchTerm}%'`;
+    }
+
     const groupby = 'GROUP BY m.id'
 
     const queryString = `${select} ${from} ${join} ${where} ${groupby} `;
