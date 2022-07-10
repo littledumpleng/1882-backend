@@ -84,4 +84,52 @@ db.MediaGenre.belongsTo(db.Genre, {
   onDelete: 'cascade'
 });
 
+// Media - Theme
+db.Media.hasMany(db.MediaTheme, {
+  sourceKey: 'id',
+  foreignKey: 'mediaId',
+  onDelete: 'cascade'
+});
+
+db.MediaTheme.belongsTo(db.Media, {
+  targetKey: 'id',
+  foreignKey: 'mediaId'
+});
+
+db.Theme.hasMany(db.MediaTheme, {
+  sourceKey: 'id',
+  foreignKey: 'themeId',
+  onDelete: 'cascade'
+});
+
+db.MediaTheme.belongsTo(db.Theme, {
+  targetKey: 'id',
+  foreignKey: 'themeId',
+  onDelete: 'cascade'
+});
+
+// Media - Background
+db.Media.hasMany(db.MediaBackground, {
+  sourceKey: 'id',
+  foreignKey: 'mediaId',
+  onDelete: 'cascade'
+});
+
+db.MediaBackground.belongsTo(db.Media, {
+  targetKey: 'id',
+  foreignKey: 'mediaId'
+});
+
+db.Background.hasMany(db.MediaBackground, {
+  sourceKey: 'id',
+  foreignKey: 'backgroundId',
+  onDelete: 'cascade'
+});
+
+db.MediaBackground.belongsTo(db.Background, {
+  targetKey: 'id',
+  foreignKey: 'backgroundId',
+  onDelete: 'cascade'
+});
+
 module.exports = db;

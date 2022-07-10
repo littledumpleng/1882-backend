@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Media, sequelize } = require('../models');
-const { addMediaTypesForMedia, updateMediaTypesForMedia, addGenresForMedia, updateGenresForMedia } = require('./utils');
+const { addMediaTypesForMedia, updateMediaTypesForMedia, addGenresForMedia, updateGenresForMedia, addThemesForMedia, updateThemesForMedia, addBackgroundsForMedia, updateBackgroundsForMedia } = require('./utils');
 
 router.get('/', async (req, res) => {
   try {
@@ -35,10 +35,26 @@ router.get('/:id', async (req, res) => {
       WHERE mg."mediaId" = ${req.params.id}
     `);
 
+    const themes = await sequelize.query(`
+      SELECT t.id, t.name
+      FROM "MediaThemes" mt
+      INNER JOIN "Themes" t ON mt."themeId" = t.id
+      WHERE mt."mediaId" = ${req.params.id}
+    `);
+
+    const backgrounds = await sequelize.query(`
+      SELECT b.id, b.name
+      FROM "MediaBackgrounds" mb
+      INNER JOIN "Backgrounds" b ON mb."backgroundId" = b.id
+      WHERE mb."mediaId" = ${req.params.id}
+    `);
+
     res.json({
       ...medias.dataValues,
       mediaTypes: mediaTypes[0],
-      genres: genres[0]
+      genres: genres[0],
+      themes: themes[0],
+      backgrounds: backgrounds[0],
     });
   }
   catch (err) {
@@ -48,7 +64,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { title, description, releaseDate, mediaTypeIds, genreIds } = req.body
+  const { title, description, releaseDate, mediaTypeIds, genreIds, themeIds, backgroundIds } = req.body
   try {
     const media = await Media.create({
       title,
@@ -60,14 +76,28 @@ router.post('/', async (req, res) => {
       await addMediaTypesForMedia({
         mediaId: media.id,
         mediaTypeIds
-      })
+      });
     }
 
     if (genreIds) {
       await addGenresForMedia({
         mediaId: media.id,
         genreIds
-      })
+      });
+    }
+
+    if (themeIds) {
+      await addThemeForMedia({
+        mediaId: media.id,
+        themeIds
+      });
+    }
+
+    if (backgroundIds) {
+      await addBackgroundForMedia({
+        mediaId: media.id,
+        backgroundIds
+      });
     }
 
     res.json('created');
@@ -79,7 +109,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const { title, description, releaseDate, mediaTypeIds, genreIds } = req.body
+  const { title, description, releaseDate, mediaTypeIds, genreIds, themeIds, backgroundIds } = req.body
   try {
     await Media.update(
       {
@@ -98,14 +128,28 @@ router.put('/:id', async (req, res) => {
       await updateMediaTypesForMedia({
         mediaId: req.params.id,
         mediaTypeIds
-      })
+      });
     }
 
     if (genreIds) {
       await updateGenresForMedia({
         mediaId: req.params.id,
         genreIds
-      })
+      });
+    }
+
+    if (themeIds) {
+      await updateThemesForMedia({
+        mediaId: req.params.id,
+        themeIds
+      });
+    }
+
+    if (backgroundIds) {
+      await updateBackgroundsForMedia({
+        mediaId: req.params.id,
+        backgroundIds
+      });
     }
 
     res.json('updated');

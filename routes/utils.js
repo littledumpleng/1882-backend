@@ -1,4 +1,4 @@
-const { MediaMediaType, MediaGenre } = require('../models');
+const { MediaMediaType, MediaGenre, MediaTheme, MediaBackground } = require('../models');
 
 const utils = {};
 
@@ -36,6 +36,42 @@ utils.updateGenresForMedia = async ({ mediaId, genreIds }) => {
     }
   });
   await utils.addGenresForMedia({ mediaId, genreIds });
+}
+
+utils.addThemesForMedia = async ({ mediaId, themeIds }) => {
+  for (const themeId of themeIds) {
+    await MediaTheme.create({
+      mediaId,
+      themeId
+    });
+  }
+}
+
+utils.updateThemesForMedia = async ({ mediaId, themeIds }) => {
+  await MediaTheme.destroy({
+    where: {
+      mediaId
+    }
+  });
+  await utils.addThemesForMedia({ mediaId, themeIds });
+}
+
+utils.addBackgroundsForMedia = async ({ mediaId, backgroundIds }) => {
+  for (const backgroundId of backgroundIds) {
+    await MediaBackground.create({
+      mediaId,
+      backgroundId
+    });
+  }
+}
+
+utils.updateBackgroundsForMedia = async ({ mediaId, backgroundIds }) => {
+  await MediaBackground.destroy({
+    where: {
+      mediaId
+    }
+  });
+  await utils.addBackgroundsForMedia({ mediaId, backgroundIds });
 }
 
 module.exports = utils;
