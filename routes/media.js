@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Media } = require('../models');
+const { Media, MediaMediaType } = require('../models');
 
 router.get('/', async (req, res) => {
   try {
@@ -28,10 +28,22 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  const { title, description, releaseDate, mediaTypeIds } = req.body
   try {
-    await Media.create({
-      ...req.body,
+    const media = await Media.create({
+      title,
+      description,
+      releaseDate
     });
+
+    if (mediaTypeIds) {
+      for (const mediaTypeId of mediaTypeIds) {
+        await MediaMediaType.create({
+          mediaId: media.id,
+          mediaTypeId
+        });
+      }
+    }
     res.json('created');
   }
   catch (err) {

@@ -35,45 +35,40 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// associations between tables
+/*
+ ASSOCIATIONS
+*/
+
+// Media - MediaType
+db.Media.hasOne(db.MediaMediaType, {
+  sourceKey: 'id',
+  foreignKey: 'mediaId'
+});
+
+db.MediaMediaType.belongsTo(db.Media, {
+  targetKey: 'id',
+  foreignKey: 'mediaId'
+});
+
+db.MediaType.hasMany(db.MediaMediaType, {
+  sourceKey: 'id',
+  foreignKey: 'mediaTypeId'
+});
+
+db.MediaMediaType.belongsTo(db.MediaType, {
+  targetKey: 'id',
+  foreignKey: 'mediaTypeId'
+});
+
+// Media - Review
 db.Media.hasMany(db.Review, {
   sourceKey: 'id',
-  foreignKey: 'media_id'
+  foreignKey: 'mediaId'
 });
 
 db.Review.belongsTo(db.Media, {
   targetKey: 'id',
-  foreignKey: 'media_id'
+  foreignKey: 'mediaId'
 });
-
-// Post.belongsTo(User, {
-//   targetKey: 'id',
-//   foreignKey: 'user_id'
-// });
-
-// User.hasMany(Post, {
-//   sourceKey: 'id',
-//   foreignKey: 'user_id'
-// });
-
-// Comment.belongsTo(Post, {
-//   targetKey: 'id',
-//   foreignKey: 'post_id'
-// });
-
-// Post.hasMany(Comment, {
-//   sourceKey: 'id',
-//   foreignKey: 'post_id'
-// });
-
-// Comment.belongsTo(User, {
-//   targetKey: 'id',
-//   foreignKey: 'user_id'
-// });
-
-// User.hasMany(Comment, {
-//   sourceKey: 'id',
-//   foreignKey: 'user_id'
-// });
 
 module.exports = db;

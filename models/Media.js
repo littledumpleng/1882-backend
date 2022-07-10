@@ -18,6 +18,5 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
     },
   });
-
   return Media;
 };
