@@ -61,9 +61,10 @@ db.MediaMediaType.belongsTo(db.MediaType, {
 });
 
 // Media - Genre
-db.Media.hasOne(db.MediaGenre, {
+db.Media.hasMany(db.MediaGenre, {
   sourceKey: 'id',
-  foreignKey: 'mediaId'
+  foreignKey: 'mediaId',
+  onDelete: 'cascade'
 });
 
 db.MediaGenre.belongsTo(db.Media, {
@@ -73,12 +74,14 @@ db.MediaGenre.belongsTo(db.Media, {
 
 db.Genre.hasMany(db.MediaGenre, {
   sourceKey: 'id',
-  foreignKey: 'genreId'
+  foreignKey: 'genreId',
+  onDelete: 'cascade'
 });
 
 db.MediaGenre.belongsTo(db.Genre, {
   targetKey: 'id',
-  foreignKey: 'genreId'
+  foreignKey: 'genreId',
+  onDelete: 'cascade'
 });
 
 // Media - Review
