@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
     const media = await Media.create({
       title,
       description,
-      releaseDate
+      releaseDate: releaseDate !== '' ? releaseDate : null
     });
 
     if (mediaTypeIds) {
@@ -85,7 +85,7 @@ router.put('/:id', async (req, res) => {
       {
         title,
         description,
-        releaseDate
+        releaseDate: releaseDate !== '' ? releaseDate : null
       },
       {
         where: {
