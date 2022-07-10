@@ -84,15 +84,4 @@ db.MediaGenre.belongsTo(db.Genre, {
   onDelete: 'cascade'
 });
 
-// Media - Review
-db.Media.hasMany(db.Review, {
-  sourceKey: 'id',
-  foreignKey: 'mediaId'
-});
-
-db.Review.belongsTo(db.Media, {
-  targetKey: 'id',
-  foreignKey: 'mediaId'
-});
-
 module.exports = db;
