@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "seed": "npx sequelize-cli db:seed:all"
+    "seed": "npx sequelize-cli db:seed:all",
+    "seedClear": "npx sequelize-cli db:seed:undo:all"
   },
   "author": "Lauren Eng",
   "license": "MIT",
