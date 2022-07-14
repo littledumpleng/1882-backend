@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Media, sequelize } = require('../models');
-const { addMediaTypesForMedia, updateMediaTypesForMedia, addGenresForMedia, updateGenresForMedia, addThemesForMedia, updateThemesForMedia, addBackgroundsForMedia, updateBackgroundsForMedia, getMediaTypesForMedia, getGenresForMedia, getThemesForMedia, getBackgroundsForMedia } = require('./utils');
+const utils = require('./utils');
 
 router.get('/', async (req, res) => {
   const { searchTerm, mediaTypeIds, backgroundIds, genreIds, themeIds } = req.query;
@@ -49,32 +49,39 @@ router.get('/', async (req, res) => {
     const mediaIds = Object.keys(mediaById);
 
     if (mediaIds.length > 0) {
-      const mediaTypes = await getMediaTypesForMedia({ mediaIds });
+      const mediaTypes = await utils.getMediaTypesForMedia({ mediaIds });
       for (const mediaType of mediaTypes) {
         const media = mediaById[mediaType.mediaId];
         media.mediaTypes = media.mediaTypes ?? [];
         media.mediaTypes.push(mediaType);
       }
 
-      const genres = await getGenresForMedia({ mediaIds });
+      const genres = await utils.getGenresForMedia({ mediaIds });
       for (const genre of genres) {
         const media = mediaById[genre.mediaId];
         media.genres = media.genres ?? [];
         media.genres.push(genre);
       }
 
-      const themes = await getThemesForMedia({ mediaIds });
+      const themes = await utils.getThemesForMedia({ mediaIds });
       for (const theme of themes) {
         const media = mediaById[theme.mediaId];
         media.themes = media.themes ?? [];
         media.themes.push(theme);
       }
 
-      const backgrounds = await getBackgroundsForMedia({ mediaIds });
+      const backgrounds = await utils.getBackgroundsForMedia({ mediaIds });
       for (const background of backgrounds) {
         const media = mediaById[background.mediaId];
         media.backgrounds = media.backgrounds ?? [];
         media.backgrounds.push(background);
+      }
+
+      const creatorRoles = await utils.getCreatorRoleForMedia({ mediaIds });
+      for (const creatorRole of creatorRoles) {
+        const media = mediaById[creatorRole.mediaId];
+        media.creatorRoles = media.creatorRoles ?? [];
+        media.creatorRoles.push(creatorRole);
       }
     }
 
@@ -95,13 +102,13 @@ router.get('/:id', async (req, res) => {
       }
     });
 
-    const mediaTypes = await getMediaTypesForMedia({ mediaIds: [req.params.id] });
+    const mediaTypes = await utils.getMediaTypesForMedia({ mediaIds: [req.params.id] });
 
-    const genres = await getGenresForMedia({ mediaIds: [req.params.id] });
+    const genres = await utils.getGenresForMedia({ mediaIds: [req.params.id] });
 
-    const themes = await getThemesForMedia({ mediaIds: [req.params.id] });
+    const themes = await utils.getThemesForMedia({ mediaIds: [req.params.id] });
 
-    const backgrounds = await getBackgroundsForMedia({ mediaIds: [req.params.id] });
+    const backgrounds = await utils.getBackgroundsForMedia({ mediaIds: [req.params.id] });
 
     res.json({
       ...medias.dataValues,
@@ -118,7 +125,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { title, description, releaseDate, mediaTypeIds, genreIds, themeIds, backgroundIds } = req.body
+  const { title, description, releaseDate, mediaTypeIds, genreIds, themeIds, backgroundIds, creatorRoles } = req.body
   try {
     const media = await Media.create({
       title,
@@ -127,30 +134,37 @@ router.post('/', async (req, res) => {
     });
 
     if (mediaTypeIds) {
-      await addMediaTypesForMedia({
+      await utils.addMediaTypesForMedia({
         mediaId: media.id,
         mediaTypeIds
       });
     }
 
     if (genreIds) {
-      await addGenresForMedia({
+      await utils.addGenresForMedia({
         mediaId: media.id,
         genreIds
       });
     }
 
     if (themeIds) {
-      await addThemesForMedia({
+      await utils.addThemesForMedia({
         mediaId: media.id,
         themeIds
       });
     }
 
     if (backgroundIds) {
-      await addBackgroundsForMedia({
+      await utils.addBackgroundsForMedia({
         mediaId: media.id,
         backgroundIds
+      });
+    }
+
+    if (creatorRoles) {
+      await utils.addCreatorRoleForMedia({
+        mediaId: media.id,
+        creatorRoles
       });
     }
 
@@ -179,28 +193,28 @@ router.put('/:id', async (req, res) => {
     );
 
     if (mediaTypeIds) {
-      await updateMediaTypesForMedia({
+      await utils.updateMediaTypesForMedia({
         mediaId: req.params.id,
         mediaTypeIds
       });
     }
 
     if (genreIds) {
-      await updateGenresForMedia({
+      await utils.updateGenresForMedia({
         mediaId: req.params.id,
         genreIds
       });
     }
 
     if (themeIds) {
-      await updateThemesForMedia({
+      await utils.updateThemesForMedia({
         mediaId: req.params.id,
         themeIds
       });
     }
 
     if (backgroundIds) {
-      await updateBackgroundsForMedia({
+      await utils.updateBackgroundsForMedia({
         mediaId: req.params.id,
         backgroundIds
       });

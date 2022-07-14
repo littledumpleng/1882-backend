@@ -1,4 +1,4 @@
-const { sequelize, MediaMediaType, MediaGenre, MediaTheme, MediaBackground } = require('../models');
+const { sequelize, MediaMediaType, MediaGenre, MediaTheme, MediaBackground, MediaCreatorRole } = require('../models');
 
 const utils = {};
 
@@ -74,12 +74,31 @@ utils.updateBackgroundsForMedia = async ({ mediaId, backgroundIds }) => {
   await utils.addBackgroundsForMedia({ mediaId, backgroundIds });
 }
 
+utils.addCreatorRoleForMedia = async ({ mediaId, creatorRoles }) => {
+  for (const creatorRole of creatorRoles) {
+    await MediaCreatorRole.create({
+      mediaId,
+      creatorId: creatorRole.creatorId,
+      roleId: creatorRole.roleId,
+    });
+  }
+}
+
+utils.updateCreatorRoleForMedia = async ({ mediaId, creatorRoles }) => {
+  await MediaCreatorRole.destroy({
+    where: {
+      mediaId
+    }
+  });
+  await utils.addCreatorRoleForMedia({ mediaId, creatorRoles });
+}
+
 utils.getMediaTypesForMedia = async ({ mediaIds }) => {
   const mediaTypes = await sequelize.query(`
     SELECT mt.id, mt.name, mmt."mediaId"
     FROM "MediaMediaTypes" mmt
     INNER JOIN "MediaTypes" mt ON mmt."mediaTypeId" = mt.id
-    WHERE mmt."mediaId" in (${mediaIds.join(', ')})
+    WHERE mmt."mediaId" IN (${mediaIds.join(', ')})
   `);
   return mediaTypes[0];
 }
@@ -89,7 +108,7 @@ utils.getGenresForMedia = async ({ mediaIds }) => {
     SELECT g.id, g.name, mg."mediaId"
     FROM "MediaGenres" mg
     INNER JOIN "Genres" g ON mg."genreId" = g.id
-    WHERE mg."mediaId" in (${mediaIds.join(', ')})
+    WHERE mg."mediaId" IN (${mediaIds.join(', ')})
   `);
   return genres[0];
 }
@@ -99,7 +118,7 @@ utils.getThemesForMedia = async ({ mediaIds }) => {
     SELECT t.id, t.name, mt."mediaId"
     FROM "MediaThemes" mt
     INNER JOIN "Themes" t ON mt."themeId" = t.id
-    WHERE mt."mediaId" in (${mediaIds.join(', ')})
+    WHERE mt."mediaId" IN (${mediaIds.join(', ')})
   `);
   return themes[0];
 }
@@ -109,9 +128,20 @@ utils.getBackgroundsForMedia = async ({ mediaIds }) => {
   SELECT b.id, b.name, mb."mediaId"
   FROM "MediaBackgrounds" mb
   INNER JOIN "Backgrounds" b ON mb."backgroundId" = b.id
-  WHERE mb."mediaId" in (${mediaIds.join(', ')})
+  WHERE mb."mediaId" IN (${mediaIds.join(', ')})
   `);
   return backgrounds[0];
+}
+
+utils.getCreatorRoleForMedia = async ({ mediaIds }) => {
+  const creatorRoles = await sequelize.query(`
+    SELECT mcr.*, c."firstName", c."lastName", r.name AS "roleName"
+    FROM "MediaCreatorRoles" mcr
+    INNER JOIN "Creators" c ON mcr."creatorId" = c.id
+    INNER JOIN "Roles" r ON mcr."roleId" = r.id
+    WHERE mcr."mediaId" IN (${mediaIds.join(', ')})
+  `);
+  return creatorRoles[0];
 }
 
 module.exports = utils;
