@@ -110,12 +110,15 @@ router.get('/:id', async (req, res) => {
 
     const backgrounds = await utils.getBackgroundsForMedia({ mediaIds: [req.params.id] });
 
+    const creatorRoles = await utils.getCreatorRoleForMedia({ mediaIds: [req.params.id] });
+
     res.json({
       ...medias.dataValues,
       mediaTypes,
       genres,
       themes,
       backgrounds,
+      creatorRoles
     });
   }
   catch (err) {
