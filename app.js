@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const ALLOWED_ORIGINS = [
   /localhost:3000$/,
-  "https://database-1882.herokuapp.com",
+  /1882-foundation-database.netlify.app$/,
 ];
 
 const corsOptions = {
