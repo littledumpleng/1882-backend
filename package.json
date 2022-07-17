@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon app.js",
-    "start:prod": "NODE_ENV=production nodemon app.js",
+    "start:prod": "NODE_ENV=production node app.js",
     "seed": "npx sequelize-cli db:seed:all",
     "seedClear": "npx sequelize-cli db:seed:undo:all"
   },
