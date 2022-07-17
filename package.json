@@ -4,8 +4,8 @@
   "description": "1882 lit + art corner database app",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "dev": "nodemon app.js",
+    "start": "NODE_ENV=development nodemon app.js",
+    "start:prod": "NODE_ENV=production nodemon app.js",
     "seed": "npx sequelize-cli db:seed:all",
     "seedClear": "npx sequelize-cli db:seed:undo:all"
   },
